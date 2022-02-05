@@ -1,8 +1,9 @@
-let nCartas, pCarta, sCarta, b1, b2, cards, jogadasCertas = 0, jogadasTotal = 0;
+let nCartas, pCarta, sCarta,n1,n2, b1, b2, cards, jogadasCertas = 0, jogadasTotal = 0;
 let x = 0;
 let lista = []
 let listaImg = []
 let listaMemes = [["meme1","bobrossparrot.gif"],["meme1","bobrossparrot.gif"],["meme2","dog1.png"],["meme2","dog1.png"],["meme3","fiestaparrot.gif"],["meme3","fiestaparrot.gif"],["meme4","metalparrot.gif"],["meme4","metalparrot.gif"],["meme5","revertitparrot.gif"],["meme5","revertitparrot.gif"],["meme6","tripletsparrot.gif"],["meme6","tripletsparrot.gif"],["meme7","unicornparrot.gif"],["meme7","unicornparrot.gif"]]
+
 comecar()
 
 
@@ -25,28 +26,31 @@ if ((nCartas<4)||(nCartas>14)||(nCartas%2 !== 0)){
     printarDivs()
 }
 
-
 function escolher(valor){
-    document.querySelector(".img"+valor+">img:first-child").classList.add("esconder");
-    document.querySelector(".img"+valor+">img:last-child").classList.remove("esconder");
-    console.log("jogada ="+x)
     
     if (x == 0){
-        // nome do meme
+        virarCarta(valor)
+        // nome do meme (meme1) / numero da div (img1) / numero do parametro (1)
         pCarta = document.querySelector(".img"+valor+">img:last-child").classList[1]
-        // numero da div
         b1 = ("img"+valor)
+        n1 = valor
         // tirando o pCarta da escolha
-        
-        document.querySelector(".img"+valor+">img:last-child").classList.remove(`${pCarta}`) 
-        
+        document.querySelector(".img"+valor).setAttribute("onclick","")
+
         console.log("pCarta = "+pCarta)
         x++
         console.log("jogada ="+x)
-    }else {
+    }else if (x == 1) {
+        virarCarta(valor)
+        // nome do meme (meme1) / numero da div (img1) / numero do parametro (1)
         sCarta = document.querySelector(".img"+valor+">img:last-child").classList[1]
         b2 = ("img"+valor)
+        n2 = valor
 
+        // tirando o sCarta da escolha
+        document.querySelector(".img"+valor).setAttribute("onclick","")
+
+        x++
         console.log("jogada ="+x)
         console.log("sCarta = "+sCarta)
         console.log("pcarta = "+pCarta+" sCarta = "+sCarta)
@@ -60,10 +64,6 @@ function escolher(valor){
             document.querySelector("."+b2).classList.add("borda")
             document.querySelector("."+b1).setAttribute("onclick","")
             document.querySelector("."+b2).setAttribute("onclick","")
-            
-            // retomar funcao onclick
-            // document.querySelector(".img3").setAttribute("onclick","escolher(3)")
-
 
             if (jogadasCertas == nCartas){
                 const myTimeout = setTimeout(tempo, 1000);
@@ -84,22 +84,39 @@ function escolher(valor){
             
             const myTimeout = setTimeout(tempo, 1000);
             function tempo() {
-                document.querySelector("."+b1).classList.remove("borda")
-                document.querySelector("."+b2).classList.remove("borda")
-                
-                document.querySelector("."+b1+">img:last-child").classList.add(pCarta)
-                document.querySelector("."+b1+">img:last-child").classList.add(sCarta)
-
+                // retomar funcao onclick
+                document.querySelector("."+b1).setAttribute("onclick","escolher("+n1+")")
+                document.querySelector("."+b2).setAttribute("onclick","escolher("+n2+")")
 
                 document.querySelector("."+b1+">img:first-child").classList.remove("esconder");
                 document.querySelector("."+b1+">img:last-child").classList.add("esconder");
                 document.querySelector("."+b2+">img:first-child").classList.remove("esconder");
                 document.querySelector("."+b2+">img:last-child").classList.add("esconder");
                 x=0
+                console.log("ZERANDO AS JOGADAS...")
                 }
             
         }
     }
+    else{
+        // retomar funcao onclick
+        document.querySelector("."+b1).setAttribute("onclick","escolher("+n1+")")
+        document.querySelector("."+b2).setAttribute("onclick","escolher("+n2+")")
+
+
+        document.querySelector("."+b1+">img:first-child").classList.remove("esconder");
+        document.querySelector("."+b1+">img:last-child").classList.add("esconder");
+        document.querySelector("."+b2+">img:first-child").classList.remove("esconder");
+        document.querySelector("."+b2+">img:last-child").classList.add("esconder");
+        x=0
+        console.log("ZERANDO AS JOGADAS...")
+    }
+}
+
+function virarCarta(valor){
+    document.querySelector(".img"+valor+">img:first-child").classList.add("esconder");
+    document.querySelector(".img"+valor+">img:last-child").classList.remove("esconder");
+    console.log("jogada ="+x)
 }
 
 function printarDivs(){
