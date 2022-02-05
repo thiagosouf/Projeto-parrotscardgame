@@ -24,24 +24,40 @@ body{
     border-radius: 5px;
     border: 1px solid #99CEA8;
     margin: 17px;
+    transition: all .5s;
+    transform-style: preserve-3d;
 }
 
-.verso{
+.face{
     height: 100px;
     width: 100px;
     margin-left: 10px;
     margin-top: 24px;
+
 }
 
-.frente{
-    height: 100px;
-    width: 100px;
-    margin-left: 10px;
-    margin-top: 24px;
+.face img{
+    height: 100%;
+    width: 100%;
+    transform: rotateY(180deg);
 }
+
 .esconder{
     display: none;
 }
+
 .borda{
     border: 2px solid green;
+}
+
+.virar{
+    transform: rotateY(180deg);
+}
+
+.relogio{
+    color: red;
+    font-size: 30px;
+    position: absolute;
+    right: 30px;
+    top: 0;
 }

@@ -1,112 +1,119 @@
-let nCartas, pCarta, sCarta,n1,n2, b1, b2, cards, jogadasCertas = 0, jogadasTotal = 0;
-let x = 0;
+let nCartas, nomeMeme1, nomeMeme2,valorCarta1,valorCarta2, cards, jogadasCertas = 0, jogadasTotal = 0;
+let jogada = 0;
 let lista = []
 let listaImg = []
 let listaMemes = [["meme1","bobrossparrot.gif"],["meme1","bobrossparrot.gif"],["meme2","dog1.png"],["meme2","dog1.png"],["meme3","fiestaparrot.gif"],["meme3","fiestaparrot.gif"],["meme4","metalparrot.gif"],["meme4","metalparrot.gif"],["meme5","revertitparrot.gif"],["meme5","revertitparrot.gif"],["meme6","tripletsparrot.gif"],["meme6","tripletsparrot.gif"],["meme7","unicornparrot.gif"],["meme7","unicornparrot.gif"]]
-
+const relogio = document.querySelector(".relogio");
+let tempoJogo = null;
 comecar()
 
 
 function comecar(){
     nCartas = prompt("Quantas cartas voce deseja(numeros pares de 4 a 14)")
-    // se o valor for invalido
-if ((nCartas<4)||(nCartas>14)||(nCartas%2 !== 0)){
-    comecar();
-} else{
-    //se o valor for valido
-    for (let i=0; i<=parseInt(nCartas)-1; i++){
-        // faz a lista com identificador das divs
-        lista.push(i);
-        listaImg.push(".img"+i);
-        console.log(i);
-        lista.sort(comparador);
-
+    tempoJogo = setInterval(reloginho,1000);
+    if ((nCartas<4)||(nCartas>14)||(nCartas%2 !== 0)){
+        comecar();
+    } else{
+        //se o valor for valido
+        
+        for (let i=0; i<=parseInt(nCartas)-1; i++){
+            // faz a lista com identificador das divs
+            lista.push(i);
+            listaImg.push(".img"+i);
+            console.log(i);
+            lista.sort(sortear);
+            }
         }
-    }
     printarDivs()
 }
 
 function escolher(valor){
     
-    if (x == 0){
+    if (jogada == 0){
+        //stilo de virar a carta 
+        identificador1 = document.querySelector(".img"+valor)
+        identificador1.classList.add("virar")  
+        nomeMeme1 = document.querySelector(".img"+valor+">img:last-child").classList[1]
+        valorCarta1 = valor
+        //virar carta
         virarCarta(valor)
-        // nome do meme (meme1) / numero da div (img1) / numero do parametro (1)
-        pCarta = document.querySelector(".img"+valor+">img:last-child").classList[1]
-        b1 = ("img"+valor)
-        n1 = valor
-        // tirando o pCarta da escolha
-        document.querySelector(".img"+valor).setAttribute("onclick","")
+        // tirando a primeira carta da escolha
+        identificador1.setAttribute("onclick","")
 
-        console.log("pCarta = "+pCarta)
-        x++
-        console.log("jogada ="+x)
-    }else if (x == 1) {
+        jogada++
+    }else if (jogada == 1) {
+        //stilo de virar a carta 
+        identificador2 = document.querySelector(".img"+valor)
+        identificador2.classList.add("virar")
+        nomeMeme2 = document.querySelector(".img"+valor+">img:last-child").classList[1]
+        valorCarta2 = valor
+        //virar carta
         virarCarta(valor)
-        // nome do meme (meme1) / numero da div (img1) / numero do parametro (1)
-        sCarta = document.querySelector(".img"+valor+">img:last-child").classList[1]
-        b2 = ("img"+valor)
-        n2 = valor
+        // tirando a segunda carta da escolha
+        identificador2.setAttribute("onclick","")
 
-        // tirando o sCarta da escolha
-        document.querySelector(".img"+valor).setAttribute("onclick","")
-
-        x++
-        console.log("jogada ="+x)
-        console.log("sCarta = "+sCarta)
-        console.log("pcarta = "+pCarta+" sCarta = "+sCarta)
-
-        if (pCarta == sCarta){
-            console.log("AS CARTAS SAO IGUAIS")
-            jogadasCertas = jogadasCertas + 2
-            console.log("JOGADAS CERTAS"+jogadasCertas)
-            
-            document.querySelector("."+b1).classList.add("borda")
-            document.querySelector("."+b2).classList.add("borda")
-            document.querySelector("."+b1).setAttribute("onclick","")
-            document.querySelector("."+b2).setAttribute("onclick","")
-
+        jogada++
+        if (nomeMeme1 == nomeMeme2){
+            //se as cartas forem iguais
+            jogadasCertas = jogadasCertas + 2  
+            //acrescenta borda verde para identificar que as cartas são iguais          
+            identificador1.classList.add("borda")
+            identificador2.classList.add("borda")
             if (jogadasCertas == nCartas){
+                clearInterval(tempoJogo);
+                //se Fim de Jogo 
                 setTimeout(tempo, 1000);
                 function tempo(){
-                alert("GAME OVER")
-                jogadasTotal = jogadasTotal + jogadasCertas
-                alert(`Você ganhou em ${jogadasTotal} jogadas!`)
-                novoJogo = prompt("Deseja iniciar uma nova partida? (s/n)")
-                if (novoJogo == "s"){
-                    reiniciarJogo()
+                    alert("GAME OVER")
+                    clearInterval(tempoJogo);
+                    jogadasTotal = jogadasTotal + jogadasCertas
+                    alert(`Você ganhou em ${jogadasTotal} jogadas e em ${relogio.innerHTML} segundos!`)
+                    novoJogo = prompt("Deseja iniciar uma nova partida? (s/n)")
+                    if (novoJogo == "s"){
+                        reiniciarJogo()
+                    }
                 }
             }
-            }
-            x=0
+            jogada=0
         } else {
-            console.log("AS CARTAS SAO DIFERENTES")
+            //Se as cartas forem diferentes
             jogadasTotal = jogadasTotal + 2
-            
             setTimeout(tempo, 1000);
             function tempo() {
-                // retomar funcao onclick
-                document.querySelector("."+b1).setAttribute("onclick","escolher("+n1+")")
-                document.querySelector("."+b2).setAttribute("onclick","escolher("+n2+")")
-
-                document.querySelector("."+b1+">img:first-child").classList.remove("esconder");
-                document.querySelector("."+b1+">img:last-child").classList.add("esconder");
-                document.querySelector("."+b2+">img:first-child").classList.remove("esconder");
-                document.querySelector("."+b2+">img:last-child").classList.add("esconder");
-                x=0
-                console.log("ZERANDO AS JOGADAS...")
-                }
-            
+                // retomar funcao onclick e desvirar as cartas
+                identificador1.classList.remove("virar")
+                identificador2.classList.remove("virar")
+                desvirarCarta()
+                jogada=0
+                //zera a variavel jogada
+            }
         }
     }
     else{
+        //se o usuario tentar clicar em uma terceira carta, a funcao retorna false
         return false
     }
 }
 
 function virarCarta(valor){
-    document.querySelector(".img"+valor+">img:first-child").classList.add("esconder");
-    document.querySelector(".img"+valor+">img:last-child").classList.remove("esconder");
-    console.log("jogada ="+x)
+    setTimeout(tempo, 100);
+            function tempo() {
+                document.querySelector(".img"+valor+">img:first-child").classList.add("esconder");
+                document.querySelector(".img"+valor+">img:last-child").classList.remove("esconder");
+                }  
+}
+
+function desvirarCarta(){
+    setTimeout(tempo, 100);
+        function tempo() {
+            identificador1.setAttribute("onclick","escolher("+valorCarta1+")")
+            identificador2.setAttribute("onclick","escolher("+valorCarta2+")")
+
+            document.querySelector(".img"+valorCarta1+">img:first-child").classList.remove("esconder");
+            document.querySelector(".img"+valorCarta1+">img:last-child").classList.add("esconder");
+            document.querySelector(".img"+valorCarta2+">img:first-child").classList.remove("esconder");
+            document.querySelector(".img"+valorCarta2+">img:last-child").classList.add("esconder");
+        }
 }
 
 function printarDivs(){
@@ -114,16 +121,20 @@ function printarDivs(){
     for(let j=0;j<lista.length;j++){
         console.log(lista[j])
         cards = document.querySelector(".areaJogo").innerHTML= cards + `<div class="carta img${lista[j]}" onclick="escolher(${lista[j]})">
-        <img src="./img/front.png" alt="verso-carta" class="verso">
-        <img src="./img/${listaMemes[lista[j]][1]}" alt="frente-carta" class="frente ${listaMemes[lista[j]][0]} esconder">
+        <img src="./img/front.png" alt="verso-carta" class="verso face">
+        <img src="./img/${listaMemes[lista[j]][1]}" alt="frente-carta" class="frente ${listaMemes[lista[j]][0]} face esconder">
         </div>`;
         console.log(listaMemes[lista[j]][0])
 }
 }
-function comparador() { 
+function sortear() { 
 	return Math.random() - 0.5; 
 }
 
 function reiniciarJogo(){
     window.location.reload();
+}
+
+function reloginho() {
+    relogio.innerHTML = parseInt(relogio.innerHTML) + 1;
 }
