@@ -66,7 +66,7 @@ function escolher(valor){
             document.querySelector("."+b2).setAttribute("onclick","")
 
             if (jogadasCertas == nCartas){
-                const myTimeout = setTimeout(tempo, 1000);
+                setTimeout(tempo, 1000);
                 function tempo(){
                 alert("GAME OVER")
                 jogadasTotal = jogadasTotal + jogadasCertas
@@ -82,7 +82,7 @@ function escolher(valor){
             console.log("AS CARTAS SAO DIFERENTES")
             jogadasTotal = jogadasTotal + 2
             
-            const myTimeout = setTimeout(tempo, 1000);
+            setTimeout(tempo, 1000);
             function tempo() {
                 // retomar funcao onclick
                 document.querySelector("."+b1).setAttribute("onclick","escolher("+n1+")")
@@ -99,17 +99,7 @@ function escolher(valor){
         }
     }
     else{
-        // retomar funcao onclick
-        document.querySelector("."+b1).setAttribute("onclick","escolher("+n1+")")
-        document.querySelector("."+b2).setAttribute("onclick","escolher("+n2+")")
-
-
-        document.querySelector("."+b1+">img:first-child").classList.remove("esconder");
-        document.querySelector("."+b1+">img:last-child").classList.add("esconder");
-        document.querySelector("."+b2+">img:first-child").classList.remove("esconder");
-        document.querySelector("."+b2+">img:last-child").classList.add("esconder");
-        x=0
-        console.log("ZERANDO AS JOGADAS...")
+        return false
     }
 }
 
