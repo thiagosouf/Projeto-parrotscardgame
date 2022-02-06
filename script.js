@@ -20,7 +20,6 @@ function comecar(){
             // faz a lista com identificador das divs
             lista.push(i);
             listaImg.push(".img"+i);
-            console.log(i);
             lista.sort(sortear);
             }
         }
@@ -119,12 +118,10 @@ function desvirarCarta(){
 function printarDivs(){
     cards=''
     for(let j=0;j<lista.length;j++){
-        console.log(lista[j])
         cards = document.querySelector(".areaJogo").innerHTML= cards + `<div class="carta img${lista[j]}" data-identifier="card" onclick="escolher(${lista[j]})">
         <img src="./img/front.png" alt="verso-carta" data-identifier="back-face" alt="verso-carta" class="verso face">
         <img src="./img/${listaMemes[lista[j]][1]}" data-identifier="front-face" alt="frente-carta" class="frente ${listaMemes[lista[j]][0]} face esconder">
         </div>`;
-        console.log(listaMemes[lista[j]][0])
 }
 }
 function sortear() { 

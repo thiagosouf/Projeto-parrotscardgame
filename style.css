@@ -1,3 +1,7 @@
+*{
+    box-sizing: border-box;
+}
+
 body{
     background-color: #EEF9BF;
 }
@@ -14,7 +18,7 @@ body{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    margin: 0 10%;
+    justify-content: center;
 }
 
 .carta{
@@ -60,4 +64,16 @@ body{
     position: absolute;
     right: 30px;
     top: 0;
+}
+
+@media (max-width: 614px) {
+    .areaJogo{
+        flex-direction: column;
+        flex-wrap: nowrap;
+        align-items: center;
+    }
+
+    .titulo p{
+        text-align: center;
+    }
 }
